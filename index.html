@@ -1,0 +1,67 @@
+<html>
+    <head></head>
+    <body>
+
+        <div id="herois" style="display: flex; flex-wrap: wrap; justify-content: space-between;">
+
+        </div>
+
+        <script>
+            const timestamp = '1650399440';
+            const apikey = '5833afe2474ff2020fac0634a1a4eb26';
+            const md5 = '4428f9112755f332ab891ba973d85217';
+
+            fetch(`https://gateway.marvel.com:443/v1/public/characters?ts=${timestamp}&apikey=${apikey}&hash=${md5}&limit=9`
+            ).then((response) => {
+                return response.json();
+            }).then((jsonParsed) => {
+                const divHero = document.querySelector('#herois');
+
+                jsonParsed.data.results.forEach(element => {
+                    const srcImage = element.thumbnail.path + '.' + element.thumbnail.extension
+                    const nomeHero = element.name
+
+                    createDivHero(srcImage, nomeHero, divHero);
+                })
+
+                console.log(jsonParsed);
+            })
+
+            function createDivHero(srcImage, nomeHero, divToAppend){
+                const divPai = document.createElement('div');
+                const divFilho = document.createElement('div');
+                const textName = document.createElement('text');
+                const img = document.createElement('img');
+
+                textName.textContent = nomeHero;
+                img.src = srcImage;
+
+                divFilho.appendChild(img)
+                divFilho.appendChild(textName)
+                divPai.appendChild(divFilho)
+                divToAppend.appendChild(divPai)
+
+                divPai.classList.add("personagem");
+            }
+        </script>
+    </body>
+</html>
+
+<style>
+
+    img{
+        width: 300px;
+        border-bottom-style: solid;
+        border-color: red;
+        border-top-right-radius: 5%;
+        border-top-left-radius: 5%;
+    }
+
+    .personagem{
+        width: 300px;
+        margin: 30px;
+        border-style: solid;
+        border-radius: 15px;
+        text-align: center;
+    }
+</style>
